@@ -10,7 +10,7 @@ public class Person {
     //region Fields
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Column(name = "имя")
@@ -26,7 +26,7 @@ public class Person {
     public Person() {
     }
 
-    public Person(String name, int age) {
+    public Person( String name, int age) {
         this.name = name;
         this.age = age;
     }

@@ -26,7 +26,7 @@ public class Main {
 //            DeleteInSession(sessionFactory, 2);
 
             //Обновление объекта
-//            UpdateInSession(sessionFactory, 4, new Person("dmitriy", 34));
+            UpdateInSession(sessionFactory, 4, new Person("dmitriy", 34));
 
         }
 
@@ -66,13 +66,15 @@ public class Main {
     //Обновление объекта Person в БД по id
     private static void UpdateInSession(SessionFactory sessionFactory, int id, Person personUpdated) {
         try (Session session = sessionFactory.openSession()) {
-            String hql = "from Person where id = " + id;
-            Query<Person> query = session.createQuery(hql);
+            String hql = "from Person where id = :id";
+            Query<Person> query = session.createQuery(hql, Person.class);
             query.setParameter("id", id);
             Person person = query.getSingleResult();
             System.out.println(person);
+            person.setName(personUpdated.getName());
+            person.setAge(personUpdated.getAge());
             session.beginTransaction();
-            session.update(personUpdated);
+            session.update(person);
             session.getTransaction().commit();
             session.close();
         }
